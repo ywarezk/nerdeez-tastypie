@@ -192,8 +192,10 @@ class CharField(ApiField):
     def convert(self, value):
         if value is None:
             return None
-
-        return six.text_type(value)
+        try:
+            return six.text_type(value)
+        except UnicodeDecodeError:
+            return value.decode('utf8')
 
 
 class FileField(ApiField):
